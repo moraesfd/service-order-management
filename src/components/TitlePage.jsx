@@ -1,8 +1,9 @@
 function TitlePage({ text }) {
   return (
-    <div>
-      <h1 className="text-left font-bold text-xl my-5 text-gray-700">{text}</h1>
-      <hr />
+    <div className="border-b border-gray-400">
+      <h1 className="text-left font-bold text-2xl mt-7 mb-2 text-gray-700">
+        {text}
+      </h1>
     </div>
   );
 }

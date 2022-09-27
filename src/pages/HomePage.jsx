@@ -5,12 +5,11 @@ import TitlePage from "../components/TitlePage";
 import Loading from "../components/Loading";
 import { getAllServiceOrders } from "../modules/serviceOrder";
 import Modal from "../components/Modal";
+import { useServiceOrders } from "../contexts/serviceOrdersContext";
 
 function HomePage() {
-  const [serviceOrders, setServiceOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [serviceOrderModal, setServiceOrderModal] = useState(null);
+  const { serviceOrders, setServiceOrders, loading, setLoading, showModal } =
+    useServiceOrders();
 
   async function getAllServiceOrdersFromApi() {
     let response = [];
@@ -30,24 +29,28 @@ function HomePage() {
     getAllServiceOrdersFromApi();
   }, []);
 
+  const serviceOrdersFilteredByStatus = (status) => {
+    let serviceOrdersFiltered = null;
+
+    serviceOrdersFiltered = serviceOrders.filter((order) => {
+      return order.status === status;
+    });
+
+    return serviceOrdersFiltered;
+  };
+
   return (
     <>
       <TitlePage text="Ordens de Serviço" />
       {loading ? (
         <Loading />
       ) : serviceOrders ? (
-        <ServiceOrdersContainer
-          serviceOrders={serviceOrders}
-          setServiceOrderModal={setServiceOrderModal}
-          setShowModal={setShowModal}
-        />
+        <ServiceOrdersContainer />
       ) : (
         <EmptyState msg="Ops, não foi encontrada nenhuma Ordem de Serviço!" />
       )}
 
-      {showModal && (
-        <Modal setShowModal={setShowModal} serviceOrder={serviceOrderModal} />
-      )}
+      {showModal && <Modal />}
     </>
   );
 }

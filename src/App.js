@@ -1,8 +1,9 @@
-import './App.css';
-import { BrowserRouter } from 'react-router-dom';
-import RoutesComponent from './routes';
-import Header from './components/Header';
-import MainLayout from './layout/MainLayout';
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import RoutesComponent from "./routes";
+import Header from "./components/Header";
+import MainLayout from "./layouts/MainLayout";
+import ServiceOrdersProvider from "./contexts/serviceOrdersContext";
 
 function App() {
   return (
@@ -10,7 +11,9 @@ function App() {
       <BrowserRouter>
         <Header title="Gerenciamento de Ordens de Serviço" />
         <MainLayout>
-          <RoutesComponent />
+          <ServiceOrdersProvider>
+            <RoutesComponent />
+          </ServiceOrdersProvider>
         </MainLayout>
       </BrowserRouter>
     </div>
