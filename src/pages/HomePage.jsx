@@ -8,36 +8,32 @@ import Modal from "../components/Modal";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 
 function HomePage() {
-  const { serviceOrders, setServiceOrders, loading, setLoading, showModal } =
-    useServiceOrders();
-
-  async function getAllServiceOrdersFromApi() {
-    let response = [];
-    try {
-      response = await getAllServiceOrders();
-      setServiceOrders(response);
-    } catch (error) {
-      console.log(error);
-      response = null;
-    } finally {
-      setServiceOrders(response);
-      setLoading(false);
-    }
-  }
+  const {
+    serviceOrders,
+    setServiceOrders,
+    loading,
+    setLoading,
+    showModal,
+    statusList,
+  } = useServiceOrders();
 
   useEffect(() => {
+    async function getAllServiceOrdersFromApi() {
+      let response = [];
+      try {
+        response = await getAllServiceOrders();
+        setServiceOrders(response);
+      } catch (error) {
+        console.log(error);
+        response = null;
+      } finally {
+        setServiceOrders(response);
+      }
+    }
+
     getAllServiceOrdersFromApi();
+    setLoading(false);
   }, []);
-
-  const serviceOrdersFilteredByStatus = (status) => {
-    let serviceOrdersFiltered = null;
-
-    serviceOrdersFiltered = serviceOrders.filter((order) => {
-      return order.status === status;
-    });
-
-    return serviceOrdersFiltered;
-  };
 
   return (
     <>

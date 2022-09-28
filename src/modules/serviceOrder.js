@@ -1,7 +1,7 @@
-import api from '../services/api';
+import api from "../services/apiService";
 
 export const getAllServiceOrders = async () => {
-  const response = await api.get('/service_order');
+  const response = await api.get("/service_order");
   const { data } = response;
   return data;
 };
@@ -13,7 +13,7 @@ export const getServiceOrderById = async (serviceOrderId) => {
 };
 
 export const createServiceOrder = async (newServiceOrder) => {
-  const response = await api.post('/service_order', newServiceOrder);
+  const response = await api.post("/service_order", newServiceOrder);
   const { data } = response;
   return data;
 };

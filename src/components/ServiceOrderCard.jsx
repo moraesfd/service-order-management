@@ -1,9 +1,13 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 
 function ServiceOrderCard({ serviceOrder, statusColor }) {
-  const { status, bike, client, service } = serviceOrder;
+  const { bike, client, service, status } = serviceOrder;
 
   const { setServiceOrderModal, setShowModal } = useServiceOrders();
+
+  const [statusServiceOrder, setStatusServiceOrder] = useState("");
 
   function handleClickServiceOrder() {
     setServiceOrderModal(serviceOrder);

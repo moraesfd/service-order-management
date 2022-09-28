@@ -3,7 +3,7 @@ import { getColorByStatus } from "../helpers/service-status";
 
 function Modal() {
   const { setShowModal, serviceOrderModal } = useServiceOrders();
-  const { bike, client, description, price, status, service } =
+  const { bike, client, description, price, service, status } =
     serviceOrderModal;
 
   return (
