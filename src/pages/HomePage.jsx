@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import EmptyState from "../components/EmptyState";
 import ServiceOrdersContainer from "../components/ServiceOrdersContainer";
 import TitlePage from "../components/TitlePage";
@@ -8,14 +8,8 @@ import Modal from "../components/Modal";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 
 function HomePage() {
-  const {
-    serviceOrders,
-    setServiceOrders,
-    loading,
-    setLoading,
-    showModal,
-    statusList,
-  } = useServiceOrders();
+  const { serviceOrders, setServiceOrders, loading, setLoading, showModal } =
+    useServiceOrders();
 
   useEffect(() => {
     async function getAllServiceOrdersFromApi() {
