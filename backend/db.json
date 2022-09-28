@@ -7,7 +7,9 @@
       "service": "Revisão",
       "description": "Occaecat commodo aliqua excepteur nisi do proident aute qui magna ad culpa laboris enim duis.",
       "price": 60,
-      "status": "aberto"
+      "status": "aberto",
+      "created_at": "10/09/2022",
+      "updated_at": ""
     },
     {
       "id": 2,
@@ -16,7 +18,9 @@
       "service": "Conserto",
       "description": "Ut commodo pariatur laboris sit eu consectetur consequat sit velit dolore reprehenderit ipsum.",
       "price": 120,
-      "status": "pendente"
+      "status": "pendente",
+      "created_at": "14/09/2022",
+      "updated_at": ""
     },
     {
       "id": 3,
@@ -25,7 +29,9 @@
       "service": "Lavagem",
       "description": "Labore nostrud dolor est nostrud.",
       "price": 150,
-      "status": "aberto"
+      "status": "aberto",
+      "created_at": "20/09/2022",
+      "updated_at": ""
     },
     {
       "id": 4,
@@ -34,7 +40,9 @@
       "service": "Troca de peças",
       "description": "Commodo mollit amet est qui labore mollit reprehenderit nisi incididunt.",
       "price": 80,
-      "status": "finalizado"
+      "status": "finalizado",
+      "created_at": "14/09/2022",
+      "updated_at": "17/09/2022"
     },
     {
       "id": 5,
@@ -43,7 +51,9 @@
       "service": "Revisão",
       "description": "Velit Lorem occaecat qui esse.",
       "price": 60,
-      "status": "pendente"
+      "status": "pendente",
+      "created_at": "24/09/2022",
+      "updated_at": ""
     },
     {
       "id": 6,
@@ -52,7 +62,9 @@
       "service": "Revisão",
       "description": "Sint elit minim est ullamco duis aute adipisicing consectetur non irure quis culpa.",
       "price": 60,
-      "status": "aberto"
+      "status": "aberto",
+      "created_at": "18/09/2022",
+      "updated_at": ""
     }
   ]
 }

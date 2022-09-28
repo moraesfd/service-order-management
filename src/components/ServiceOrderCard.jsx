@@ -3,11 +3,10 @@ import { useState } from "react";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 
 function ServiceOrderCard({ serviceOrder, statusColor }) {
-  const { bike, client, service, status } = serviceOrder;
+  const { bike, client, service, status, created_at, updated_at } =
+    serviceOrder;
 
   const { setServiceOrderModal, setShowModal } = useServiceOrders();
-
-  const [statusServiceOrder, setStatusServiceOrder] = useState("");
 
   function handleClickServiceOrder() {
     setServiceOrderModal(serviceOrder);
@@ -33,6 +32,17 @@ function ServiceOrderCard({ serviceOrder, statusColor }) {
           <strong>Serviço: </strong>
           <span>{service}</span>
         </div>
+        {status !== "finalizado" ? (
+          <div className="text-gray-700 text-base text-left">
+            <strong>Entrada em: </strong>
+            <span>{created_at}</span>
+          </div>
+        ) : (
+          <div className="text-gray-700 text-base text-left">
+            <strong>Finalizada em: </strong>
+            <span>{updated_at}</span>
+          </div>
+        )}
       </div>
     </div>
   );
