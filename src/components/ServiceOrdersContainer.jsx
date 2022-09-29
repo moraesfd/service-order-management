@@ -2,14 +2,14 @@ import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import ServiceOrdersStatusSection from "./ServiceOrdersStatusSection";
 
 function ServiceOrdersContainer() {
-  const { serviceOrders, statusList } = useServiceOrders();
+  const { filteredServiceOrders, statusList } = useServiceOrders();
 
   return (
     <>
       {statusList.map((status, index) => {
         const id = index + 1;
         let serviceOrdersByStatus = [];
-        serviceOrdersByStatus = serviceOrders.filter((serviceOrder) => {
+        serviceOrdersByStatus = filteredServiceOrders.filter((serviceOrder) => {
           return status === serviceOrder.status;
         });
 
