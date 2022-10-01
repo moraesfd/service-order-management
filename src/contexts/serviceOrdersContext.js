@@ -9,7 +9,8 @@ function ServiceOrdersProvider({ children }) {
   const [filteredServiceOrders, setFilteredServiceOrders] = useState([]);
   const [statusList, setStatusList] = useState(DEFAULT_STATUS_LIST);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [showModalPreview, setShowModalPreview] = useState(false);
+  const [showModalForm, setShowModalForm] = useState(false);
   const [serviceOrderModal, setServiceOrderModal] = useState(null);
   const [searchInputText, setSearchInputText] = useState("");
 
@@ -24,8 +25,10 @@ function ServiceOrdersProvider({ children }) {
         setStatusList,
         loading,
         setLoading,
-        showModal,
-        setShowModal,
+        showModalPreview,
+        setShowModalPreview,
+        showModalForm,
+        setShowModalForm,
         serviceOrderModal,
         setServiceOrderModal,
         searchInputText,

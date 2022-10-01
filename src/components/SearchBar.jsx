@@ -1,12 +1,16 @@
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 
 function SearchBar() {
-  const { setSearchInputText } = useServiceOrders();
+  const { setSearchInputText, setShowModalForm } = useServiceOrders();
 
   const inputHandler = (e) => {
     const lowerCase = e.target.value.toLowerCase();
     setSearchInputText(lowerCase);
   };
+
+  function handleClickAddServiceOrder() {
+    setShowModalForm(true);
+  }
 
   return (
     <div className="pt-5 pb-2 block w-full sm:flex sm:justify-between sm:items-center border-b border-gray-200">
@@ -43,7 +47,10 @@ function SearchBar() {
       </div>
 
       <div className="">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button
+          onClick={() => handleClickAddServiceOrder()}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold uppercase text-md px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        >
           + Add
         </button>
       </div>

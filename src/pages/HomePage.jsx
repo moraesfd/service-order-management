@@ -4,7 +4,8 @@ import ServiceOrdersContainer from "../components/ServiceOrdersContainer";
 import TitlePage from "../components/TitlePage";
 import Loading from "../components/Loading";
 import { getAllServiceOrders } from "../modules/serviceOrder";
-import Modal from "../components/Modal";
+import ModalPreview from "../components/ModalPreview";
+import ModalForm from "../components/ModalForm";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import SearchBar from "../components/SearchBar";
 
@@ -14,7 +15,8 @@ function HomePage() {
     setServiceOrders,
     loading,
     setLoading,
-    showModal,
+    showModalPreview,
+    showModalForm,
     searchInputText,
     filteredServiceOrders,
     setFilteredServiceOrders,
@@ -30,6 +32,7 @@ function HomePage() {
     } finally {
       setServiceOrders(response);
       setFilteredServiceOrders(response);
+      setLoading(false);
     }
   }
 
@@ -52,7 +55,6 @@ function HomePage() {
 
   useEffect(() => {
     getAllServiceOrdersFromApi();
-    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -71,7 +73,8 @@ function HomePage() {
         <EmptyState msg="Ops, não foi encontrada nenhuma Ordem de Serviço!" />
       )}
 
-      {showModal && <Modal />}
+      {showModalPreview && <ModalPreview />}
+      {showModalForm && <ModalForm />}
     </>
   );
 }

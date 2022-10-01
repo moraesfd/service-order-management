@@ -1,22 +1,31 @@
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import { getColorByStatus } from "../helpers/service-status";
+import { formatMoney } from "../helpers/utils";
 
-function Modal() {
-  const { setShowModal, serviceOrderModal } = useServiceOrders();
-  const { bike, client, description, price, service, status } =
-    serviceOrderModal;
+function ModalPreview() {
+  const { setShowModalPreview, serviceOrderModal } = useServiceOrders();
+  const {
+    bike,
+    client,
+    description,
+    price,
+    service,
+    status,
+    created_at,
+    updated_at,
+  } = serviceOrderModal;
 
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mx-3">
         <div className="relative w-auto my-6 mx-auto max-w-3xl">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-              <h3 className="text-3xl font-semibold text-gray-700">{bike}</h3>
+            <div className="flex items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+              <h3 className="text-2xl font-semibold text-gray-700">{bike}</h3>
               <button
                 type="button"
                 className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowModalPreview(false)}
               >
                 <span className="sr-only">Close menu</span>
                 <svg
@@ -61,26 +70,29 @@ function Modal() {
                 </div>
                 <div className="text-gray-700 text-base text-left">
                   <strong>Preço: </strong>
-                  <span>{price}</span>
+                  <span>R$ {price}</span>
                 </div>
+                <div className="text-gray-700 text-base text-left">
+                  <strong>Entrada em: </strong>
+                  <span>{created_at}</span>
+                </div>
+                {status === "finalizado" && (
+                  <div className="text-gray-700 text-base text-left">
+                    <strong>Finalizada em: </strong>
+                    <span>{updated_at}</span>
+                  </div>
+                )}
               </p>
             </div>
 
             <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
               <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                className="text-red-500 background-transparent font-bold uppercase px-8 py-2 text-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowModalPreview(false)}
               >
                 Fechar
               </button>
-              {/* <button
-                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={() => setShowModal(false)}
-              >
-                Save Changes
-              </button> */}
             </div>
           </div>
         </div>
@@ -90,4 +102,4 @@ function Modal() {
   );
 }
 
-export default Modal;
+export default ModalPreview;
