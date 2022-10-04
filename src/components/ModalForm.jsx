@@ -8,8 +8,12 @@ import {
 import CurrencyInput from "react-currency-input-field";
 
 function ModalForm() {
-  const { setShowModalForm, serviceOrderModal, setServiceOrderModal } =
-    useServiceOrders();
+  const {
+    setShowModalForm,
+    serviceOrderModal,
+    setServiceOrderModal,
+    setCreatedOrUpdatedServiceOrder,
+  } = useServiceOrders();
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [currentServiceOrder, setCurrentServiceOrder] = useState({
@@ -22,7 +26,7 @@ function ModalForm() {
     status: serviceOrderModal?.status ?? "aberto",
     created_at:
       serviceOrderModal?.created_at ?? new Date().toLocaleDateString("pt-BR"),
-    updated_at: serviceOrderModal?.updated_at ?? "",
+    updated_at: new Date().toLocaleDateString("pt-BR"),
   });
 
   const handleValue = (e) => {
@@ -92,6 +96,7 @@ function ModalForm() {
         console.log(error);
         response = null;
       } finally {
+        setCreatedOrUpdatedServiceOrder(true);
         handleCloseModal();
       }
     }

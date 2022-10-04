@@ -20,11 +20,14 @@ function HomePage() {
     searchInputText,
     filteredServiceOrders,
     setFilteredServiceOrders,
+    createdOrUpdatedServiceOrder,
+    setCreatedOrUpdatedServiceOrder,
   } = useServiceOrders();
 
   async function getAllServiceOrdersFromApi() {
     let response = [];
     try {
+      setLoading(true);
       response = await getAllServiceOrders();
     } catch (error) {
       console.log(error);
@@ -55,7 +58,8 @@ function HomePage() {
 
   useEffect(() => {
     getAllServiceOrdersFromApi();
-  }, []);
+    setCreatedOrUpdatedServiceOrder(false);
+  }, [createdOrUpdatedServiceOrder]);
 
   useEffect(() => {
     filterServiceOrdersBySearchInput(searchInputText);

@@ -24,14 +24,14 @@
     },
     {
       "id": 3,
-      "client": "Filipa Vilhena Salomão",
       "bike": "Sense Vermelho/Verde",
+      "client": "Filipa Vilhena Salomão",
       "service": "Lavagem",
       "description": "Labore nostrud dolor est nostrud.",
       "price": "150",
-      "status": "aberto",
+      "status": "finalizado",
       "created_at": "20/09/2022",
-      "updated_at": ""
+      "updated_at": "03/10/2022"
     },
     {
       "id": 4,
@@ -61,7 +61,7 @@
       "client": "Darius Ourique Monte",
       "service": "Revisão",
       "description": "Sint elit minim est ullamco duis aute adipisicing consectetur non irure quis culpa.",
-      "price": "100",
+      "price": "120",
       "status": "aberto",
       "created_at": "18/09/2022",
       "updated_at": ""
