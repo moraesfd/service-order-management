@@ -13,6 +13,8 @@ function ServiceOrdersProvider({ children }) {
   const [showModalForm, setShowModalForm] = useState(false);
   const [serviceOrderModal, setServiceOrderModal] = useState(null);
   const [searchInputText, setSearchInputText] = useState("");
+  const [createdOrUpdatedServiceOrder, setCreatedOrUpdatedServiceOrder] =
+    useState(false);
 
   return (
     <ServiceOrdersContext.Provider
@@ -33,6 +35,8 @@ function ServiceOrdersProvider({ children }) {
         setServiceOrderModal,
         searchInputText,
         setSearchInputText,
+        createdOrUpdatedServiceOrder,
+        setCreatedOrUpdatedServiceOrder,
       }}
     >
       {children}

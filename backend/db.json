@@ -6,7 +6,7 @@
       "bike": "Caloi Azul",
       "service": "Revisão",
       "description": "Occaecat commodo aliqua excepteur nisi do proident aute qui magna ad culpa laboris enim duis.",
-      "price": 60,
+      "price": "60",
       "status": "aberto",
       "created_at": "10/09/2022",
       "updated_at": ""
@@ -17,7 +17,7 @@
       "bike": "Monark Verde",
       "service": "Conserto",
       "description": "Ut commodo pariatur laboris sit eu consectetur consequat sit velit dolore reprehenderit ipsum.",
-      "price": 120,
+      "price": "120",
       "status": "pendente",
       "created_at": "14/09/2022",
       "updated_at": ""
@@ -28,7 +28,7 @@
       "bike": "Sense Vermelho/Verde",
       "service": "Lavagem",
       "description": "Labore nostrud dolor est nostrud.",
-      "price": 150,
+      "price": "150",
       "status": "aberto",
       "created_at": "20/09/2022",
       "updated_at": ""
@@ -39,7 +39,7 @@
       "bike": "Durban Laranja",
       "service": "Troca de peças",
       "description": "Commodo mollit amet est qui labore mollit reprehenderit nisi incididunt.",
-      "price": 80,
+      "price": "80",
       "status": "finalizado",
       "created_at": "14/09/2022",
       "updated_at": "17/09/2022"
@@ -50,31 +50,21 @@
       "bike": "Colli Rosa",
       "service": "Revisão",
       "description": "Velit Lorem occaecat qui esse.",
-      "price": 60,
+      "price": "60",
       "status": "pendente",
       "created_at": "24/09/2022",
       "updated_at": ""
     },
     {
       "id": 6,
-      "client": "Darius Ourique Monte",
       "bike": "KSW Amarela",
+      "client": "Darius Ourique Monte",
       "service": "Revisão",
       "description": "Sint elit minim est ullamco duis aute adipisicing consectetur non irure quis culpa.",
-      "price": 60,
+      "price": "100",
       "status": "aberto",
       "created_at": "18/09/2022",
       "updated_at": ""
-    },
-    {
-      "bike": "Bike Teste",
-      "client": "Felipe",
-      "service": "Revisão",
-      "description": "Revisão na bike do felipe",
-      "price": "120",
-      "status": "aberto",
-      "created_at": "2022-09-30T23:11:54.567Z",
-      "id": 7
     },
     {
       "id": "e9aea0e3-ab13-4084-abdd-88ef88fedae9",
@@ -82,7 +72,7 @@
       "client": "João",
       "service": "Troca de pneu dianteiro da bike amarela",
       "description": "Troca de pneu dianteiro da bike amarela",
-      "price": "1000,50",
+      "price": "1000",
       "status": "pendente",
       "created_at": "30/09/2022",
       "updated_at": ""

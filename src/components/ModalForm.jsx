@@ -1,40 +1,99 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import { generateHashId } from "../helpers/utils";
-import { createServiceOrder } from "../modules/serviceOrder";
+import {
+  createServiceOrder,
+  updateServiceOrder,
+} from "../modules/serviceOrder";
 import CurrencyInput from "react-currency-input-field";
 
 function ModalForm() {
-  const { setShowModalForm } = useServiceOrders();
-  const [bike, setBike] = useState("");
-  const [client, setClient] = useState("");
-  const [service, setService] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [status, setStatus] = useState("aberto");
+  const { setShowModalForm, serviceOrderModal, setServiceOrderModal } =
+    useServiceOrders();
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [currentServiceOrder, setCurrentServiceOrder] = useState({
+    id: serviceOrderModal?.id ?? generateHashId(),
+    bike: serviceOrderModal?.bike ?? "",
+    client: serviceOrderModal?.client ?? "",
+    service: serviceOrderModal?.service ?? "",
+    description: serviceOrderModal?.description ?? "",
+    price: serviceOrderModal?.price ?? "",
+    status: serviceOrderModal?.status ?? "aberto",
+    created_at:
+      serviceOrderModal?.created_at ?? new Date().toLocaleDateString("pt-BR"),
+    updated_at: serviceOrderModal?.updated_at ?? "",
+  });
+
+  const handleValue = (e) => {
+    setCurrentServiceOrder({
+      ...currentServiceOrder,
+      [e.target.name]: e.target.value,
+    });
+
+    setErrorMsg("");
+    setError(false);
+  };
+
+  function validateForm() {
+    setErrorMsg("");
+    setError(false);
+
+    if (serviceOrderModal) {
+      if (
+        currentServiceOrder.bike === serviceOrderModal.bike &&
+        currentServiceOrder.client === serviceOrderModal.client &&
+        currentServiceOrder.service === serviceOrderModal.service &&
+        currentServiceOrder.description === serviceOrderModal.description &&
+        currentServiceOrder.price === serviceOrderModal.price &&
+        currentServiceOrder.status === serviceOrderModal.status
+      ) {
+        setErrorMsg("Ops! Realize sua alteração desejada antes de salvar.");
+        setError(true);
+        return false;
+      }
+    }
+
+    if (
+      currentServiceOrder.bike === "" ||
+      currentServiceOrder.client === "" ||
+      currentServiceOrder.service === "" ||
+      currentServiceOrder.price === ""
+    ) {
+      setErrorMsg("Ops! Preencha todos os campos obrigatótios para continuar.");
+      setError(true);
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function handleCloseModal() {
+    setServiceOrderModal(null);
+    setShowModalForm(false);
+  }
 
   async function handleSubmitForm() {
-    const data = {
-      id: generateHashId(),
-      bike,
-      client,
-      service,
-      description,
-      price,
-      status,
-      created_at: new Date().toLocaleDateString("pt-BR"),
-      updated_at: "",
-    };
+    const validated = validateForm();
 
-    let response = [];
+    if (validated) {
+      let response = [];
 
-    try {
-      response = await createServiceOrder(data);
-    } catch (error) {
-      console.log(error);
-      response = null;
-    } finally {
-      setShowModalForm(false);
+      try {
+        if (serviceOrderModal) {
+          response = await updateServiceOrder(
+            currentServiceOrder.id,
+            currentServiceOrder
+          );
+        } else {
+          response = await createServiceOrder(currentServiceOrder);
+        }
+      } catch (error) {
+        console.log(error);
+        response = null;
+      } finally {
+        handleCloseModal();
+      }
     }
   }
 
@@ -45,12 +104,13 @@ function ModalForm() {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
               <h3 className="text-2xl font-semibold text-gray-700">
-                Criar Ordem de Serviço
+                {serviceOrderModal ? "Editar " : "Adicionar "}
+                Ordem de Serviço
               </h3>
               <button
                 type="button"
                 className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                onClick={() => setShowModalForm(false)}
+                onClick={() => handleCloseModal()}
               >
                 <span className="sr-only">Close menu</span>
                 <svg
@@ -72,132 +132,115 @@ function ModalForm() {
             </div>
 
             <div className="relative p-6 flex-auto">
-              <p className="my-4 text-slate-500 text-lg leading-relaxed text-left">
-                <form
-                  class="w-full max-w-lg"
-                  onSubmit={() => handleSubmitForm()}
-                >
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <div className="my-4 text-slate-500 text-lg leading-relaxed text-left">
+                <form className="w-full max-w-lg">
+                  <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-first-name"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-first-name"
                       >
-                        Bike
+                        Bike <span className="text-red-500">*</span>
                       </label>
                       <input
-                        class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="bike"
+                        className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        name="bike"
                         type="text"
-                        value={bike}
-                        onChange={(e) => setBike(e.target.value)}
+                        value={currentServiceOrder.bike}
+                        onChange={(e) => handleValue(e)}
                         placeholder="Bike"
-                        required
                       />
                     </div>
-                    <div class="w-full md:w-1/2 px-3">
+                    <div className="w-full md:w-1/2 px-3">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-last-name"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-last-name"
                       >
-                        Cliente
+                        Cliente <span className="text-red-500">*</span>
                       </label>
                       <input
-                        class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="client"
+                        className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        name="client"
                         type="text"
-                        value={client}
-                        onChange={(e) => setClient(e.target.value)}
+                        value={currentServiceOrder.client}
+                        onChange={(e) => handleValue(e)}
                         placeholder="Cliente"
-                        required
                       />
                     </div>
                   </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
+                  <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full px-3">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-password"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
                       >
-                        Serviço
+                        Serviço <span className="text-red-500">*</span>
                       </label>
                       <input
-                        class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="service"
+                        className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        name="service"
                         type="text"
-                        value={service}
-                        onChange={(e) => setService(e.target.value)}
+                        value={currentServiceOrder.service}
+                        onChange={(e) => handleValue(e)}
                         placeholder="Serviço"
-                        required
                       />
                     </div>
                   </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
+                  <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full px-3">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-password"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
                       >
                         Descrição
                       </label>
                       <textarea
-                        class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="description"
+                        className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        name="description"
                         type="text"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        value={currentServiceOrder.description}
+                        onChange={(e) => handleValue(e)}
                         placeholder="Descrição"
                       />
                     </div>
                   </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-city"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-city"
                       >
-                        Preço
+                        Preço <span className="text-red-500">*</span>
                       </label>
-                      <CurrencyInput
-                        class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        mask="R$ 9,99"
-                        id="price"
-                        type="text"
-                        defaultValue={0}
-                        value={price}
-                        onValueChange={(value) => setPrice(value)}
-                        decimalsLimit={2}
-                        prefix={"R$ "}
-                        groupSeparator={"."}
-                        decimalSeparator={","}
+                      <input
+                        className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        name="price"
+                        value={currentServiceOrder.price}
+                        onChange={(e) => handleValue(e)}
                         placeholder="Preço"
-                        required
                       />
                     </div>
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                        for="grid-state"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-state"
                       >
-                        Status
+                        Status <span className="text-red-500">*</span>
                       </label>
-                      <div class="relative">
+                      <div className="relative">
                         <select
-                          class="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          value={status}
-                          onChange={(e) => setStatus(e.target.value)}
-                          id="status"
-                          required
+                          className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          value={currentServiceOrder.status}
+                          onChange={(e) => handleValue(e)}
+                          name="status"
                         >
-                          <option value="aberto" selected>
-                            Aberto
-                          </option>
+                          <option value="aberto">Aberto</option>
                           <option value="pendente">Pendente</option>
                           <option value="finalizado">Finalizado</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                           <svg
-                            class="fill-current h-4 w-4"
+                            className="fill-current h-4 w-4"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                           >
@@ -208,22 +251,24 @@ function ModalForm() {
                     </div>
                   </div>
                 </form>
-              </p>
+                {error && <p className="text-red-500 text-xs">{errorMsg}</p>}
+              </div>
             </div>
 
             <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-8 py-2 text-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={() => setShowModalForm(false)}
+                onClick={() => handleCloseModal()}
               >
                 Fechar
               </button>
               <button
                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-md px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="submit"
+                type="button"
+                onClick={() => handleSubmitForm()}
               >
-                Salvar
+                {serviceOrderModal ? "Salvar" : "Adicionar"}
               </button>
             </div>
           </div>
