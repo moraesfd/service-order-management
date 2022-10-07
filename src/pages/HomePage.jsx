@@ -8,6 +8,7 @@ import ModalPreview from "../components/ModalPreview";
 import ModalForm from "../components/ModalForm";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import SearchBar from "../components/SearchBar";
+import ModalConfirm from "../components/ModalConfirm";
 
 function HomePage() {
   const {
@@ -17,11 +18,12 @@ function HomePage() {
     setLoading,
     showModalPreview,
     showModalForm,
+    showModalConfirm,
     searchInputText,
     filteredServiceOrders,
     setFilteredServiceOrders,
-    createdOrUpdatedServiceOrder,
-    setCreatedOrUpdatedServiceOrder,
+    actionOnServiceOrder,
+    setActionOnServiceOrder,
   } = useServiceOrders();
 
   async function getAllServiceOrdersFromApi() {
@@ -58,8 +60,8 @@ function HomePage() {
 
   useEffect(() => {
     getAllServiceOrdersFromApi();
-    setCreatedOrUpdatedServiceOrder(false);
-  }, [createdOrUpdatedServiceOrder]);
+    setActionOnServiceOrder(false);
+  }, [actionOnServiceOrder]);
 
   useEffect(() => {
     filterServiceOrdersBySearchInput(searchInputText);
@@ -79,6 +81,7 @@ function HomePage() {
 
       {showModalPreview && <ModalPreview />}
       {showModalForm && <ModalForm />}
+      {showModalConfirm && <ModalConfirm />}
     </>
   );
 }

@@ -7,8 +7,12 @@ function ServiceOrderCard({ serviceOrder, statusColor }) {
   const { bike, client, service, status, created_at, updated_at } =
     serviceOrder;
 
-  const { setServiceOrderModal, setShowModalPreview, setShowModalForm } =
-    useServiceOrders();
+  const {
+    setServiceOrderModal,
+    setShowModalPreview,
+    setShowModalForm,
+    setShowModalConfirm,
+  } = useServiceOrders();
 
   function handleClickServiceOrderPreview() {
     setServiceOrderModal(serviceOrder);
@@ -18,6 +22,11 @@ function ServiceOrderCard({ serviceOrder, statusColor }) {
   function handleClickServiceOrderEdit() {
     setServiceOrderModal(serviceOrder);
     setShowModalForm(true);
+  }
+
+  function handleClickServiceOrderDelete() {
+    setServiceOrderModal(serviceOrder);
+    setShowModalConfirm(true);
   }
 
   return (
@@ -68,6 +77,7 @@ function ServiceOrderCard({ serviceOrder, statusColor }) {
           <button
             type="button"
             class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+            onClick={(e) => handleClickServiceOrderDelete()}
           >
             <FiTrash2 />
             <span class="sr-only">Excluir Item</span>

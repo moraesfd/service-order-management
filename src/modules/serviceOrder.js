@@ -29,3 +29,9 @@ export const updateServiceOrder = async (
   const { data } = response;
   return data;
 };
+
+export const deleteServiceOrder = async (serviceOrderId) => {
+  const response = await api.delete(`/service_order/${serviceOrderId}`);
+  const { data } = response;
+  return data;
+};

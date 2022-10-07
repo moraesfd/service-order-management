@@ -11,10 +11,10 @@ function ServiceOrdersProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [showModalPreview, setShowModalPreview] = useState(false);
   const [showModalForm, setShowModalForm] = useState(false);
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [serviceOrderModal, setServiceOrderModal] = useState(null);
   const [searchInputText, setSearchInputText] = useState("");
-  const [createdOrUpdatedServiceOrder, setCreatedOrUpdatedServiceOrder] =
-    useState(false);
+  const [actionOnServiceOrder, setActionOnServiceOrder] = useState(false);
 
   return (
     <ServiceOrdersContext.Provider
@@ -31,12 +31,14 @@ function ServiceOrdersProvider({ children }) {
         setShowModalPreview,
         showModalForm,
         setShowModalForm,
+        showModalConfirm,
+        setShowModalConfirm,
         serviceOrderModal,
         setServiceOrderModal,
         searchInputText,
         setSearchInputText,
-        createdOrUpdatedServiceOrder,
-        setCreatedOrUpdatedServiceOrder,
+        actionOnServiceOrder,
+        setActionOnServiceOrder,
       }}
     >
       {children}

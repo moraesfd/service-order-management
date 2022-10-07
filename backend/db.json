@@ -65,17 +65,6 @@
       "status": "aberto",
       "created_at": "18/09/2022",
       "updated_at": "03/10/2022"
-    },
-    {
-      "id": "e9aea0e3-ab13-4084-abdd-88ef88fedae9",
-      "bike": "Bike de Teste",
-      "client": "João",
-      "service": "Troca de pneu dianteiro da bike amarela",
-      "description": "Troca de pneu dianteiro da bike amarela",
-      "price": "1000",
-      "status": "pendente",
-      "created_at": "30/09/2022",
-      "updated_at": ""
     }
   ]
 }

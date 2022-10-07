@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import { generateHashId } from "../helpers/utils";
 import {
   createServiceOrder,
   updateServiceOrder,
 } from "../modules/serviceOrder";
-import CurrencyInput from "react-currency-input-field";
 
 function ModalForm() {
   const {
     setShowModalForm,
     serviceOrderModal,
     setServiceOrderModal,
-    setCreatedOrUpdatedServiceOrder,
+    setActionOnServiceOrder,
   } = useServiceOrders();
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -96,7 +95,7 @@ function ModalForm() {
         console.log(error);
         response = null;
       } finally {
-        setCreatedOrUpdatedServiceOrder(true);
+        setActionOnServiceOrder(true);
         handleCloseModal();
       }
     }
