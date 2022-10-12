@@ -7,7 +7,7 @@ function ServiceOrdersStatusSection({ statusName, filteredServiceOrders }) {
       <h1 className="text-left font-bold text-md mt-5 mb-2 text-gray-700">
         Status {statusName}
       </h1>
-      <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-3 mt-5 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-6 mt-5 mb-8">
         {filteredServiceOrders.map((serviceOrder) => {
           return (
             <ServiceOrderCard

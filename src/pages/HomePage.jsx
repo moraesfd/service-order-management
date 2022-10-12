@@ -29,7 +29,6 @@ function HomePage() {
   async function getAllServiceOrdersFromApi() {
     let response = [];
     try {
-      setLoading(true);
       response = await getAllServiceOrders();
     } catch (error) {
       console.log(error);
@@ -37,7 +36,6 @@ function HomePage() {
     } finally {
       setServiceOrders(response);
       setFilteredServiceOrders(response);
-      setLoading(false);
     }
   }
 
@@ -59,8 +57,15 @@ function HomePage() {
   }
 
   useEffect(() => {
-    getAllServiceOrdersFromApi();
-    setActionOnServiceOrder(false);
+    setLoading(true);
+
+    const timer = setTimeout(() => {
+      getAllServiceOrdersFromApi();
+      setActionOnServiceOrder(false);
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [actionOnServiceOrder]);
 
   useEffect(() => {

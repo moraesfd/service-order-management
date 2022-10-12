@@ -65,6 +65,50 @@
       "status": "aberto",
       "created_at": "18/09/2022",
       "updated_at": "03/10/2022"
+    },
+    {
+      "id": "8c272499-75be-4737-89b7-2e8639820ea2",
+      "bike": "Caloi Amarela",
+      "client": "João Silva",
+      "service": "Revisão",
+      "description": "",
+      "price": "80",
+      "status": "aberto",
+      "created_at": "07/10/2022",
+      "updated_at": "07/10/2022"
+    },
+    {
+      "id": "205cdd1d-47f3-4625-b45b-a182da82c72f",
+      "bike": "KSW Rosa",
+      "client": "Maria",
+      "service": "Troca de pneu dianteiro",
+      "description": "Troca de pneu dianteiro pelo Pirelli",
+      "price": "120",
+      "status": "pendente",
+      "created_at": "07/10/2022",
+      "updated_at": "11/10/2022"
+    },
+    {
+      "id": "0081cd08-0543-40a0-bb9f-e330261159bd",
+      "bike": "Monark preta",
+      "client": "Marcio",
+      "service": "Troca da camara de ar",
+      "description": "",
+      "price": "55",
+      "status": "aberto",
+      "created_at": "07/10/2022",
+      "updated_at": "11/10/2022"
+    },
+    {
+      "id": "6585b038-15d0-4e79-9208-3574c8d7e59d",
+      "bike": "GTS Aro 29 Verde",
+      "client": "Felipe Moraes",
+      "service": "Troca de pneu dianteiro",
+      "description": "Trocar pneu pelo disponível na oficina",
+      "price": "90",
+      "status": "aberto",
+      "created_at": "11/10/2022",
+      "updated_at": "11/10/2022"
     }
   ]
 }

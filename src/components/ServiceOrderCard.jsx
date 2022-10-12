@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useState } from "react";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
@@ -30,7 +28,7 @@ function ServiceOrderCard({ serviceOrder, statusColor }) {
   }
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg cursor-pointer">
+    <div className="w-auto rounded overflow-hidden shadow-lg cursor-pointer">
       <div
         className="px-6 py-4"
         onClick={(e) => handleClickServiceOrderPreview()}
