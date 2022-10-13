@@ -21,6 +21,7 @@ function ModalForm() {
     client: serviceOrderModal?.client ?? "",
     service: serviceOrderModal?.service ?? "",
     description: serviceOrderModal?.description ?? "",
+    responsible: serviceOrderModal?.responsible ?? "",
     price: serviceOrderModal?.price ?? "",
     status: serviceOrderModal?.status ?? "aberto",
     created_at:
@@ -48,6 +49,7 @@ function ModalForm() {
         currentServiceOrder.client === serviceOrderModal.client &&
         currentServiceOrder.service === serviceOrderModal.service &&
         currentServiceOrder.description === serviceOrderModal.description &&
+        currentServiceOrder.responsible === serviceOrderModal.responsible &&
         currentServiceOrder.price === serviceOrderModal.price &&
         currentServiceOrder.status === serviceOrderModal.status
       ) {
@@ -209,7 +211,22 @@ function ModalForm() {
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                      <label
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="grid-city"
+                      >
+                        Responsável
+                      </label>
+                      <input
+                        className="appearance-none block w-full text-gray-700 text-sm border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        name="price"
+                        value={currentServiceOrder.responsible}
+                        onChange={(e) => handleValue(e)}
+                        placeholder="Responsável"
+                      />
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                       <label
                         className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                         htmlFor="grid-city"
@@ -224,7 +241,7 @@ function ModalForm() {
                         placeholder="Preço"
                       />
                     </div>
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                       <label
                         className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                         htmlFor="grid-state"

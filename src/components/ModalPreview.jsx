@@ -8,6 +8,7 @@ function ModalPreview() {
     bike,
     client,
     description,
+    responsible,
     price,
     service,
     status,
@@ -64,21 +65,31 @@ function ModalPreview() {
                   <strong>Descrição: </strong>
                   <span>{description}</span>
                 </div>
+                {responsible && (
+                  <div className="text-gray-700 text-base text-left">
+                    <strong>Responsável: </strong>
+                    <span>{responsible}</span>
+                  </div>
+                )}
                 <div className="text-gray-700 text-base text-left">
                   <strong>Status do serviço: </strong>
                   <span className={getColorByStatus(status)}>{status}</span>
                 </div>
                 <div className="text-gray-700 text-base text-left">
                   <strong>Preço: </strong>
-                  <span>R$ {price}</span>
+                  <span>R$ {formatMoney(price)}</span>
                 </div>
                 <div className="text-gray-700 text-base text-left">
                   <strong>Entrada em: </strong>
                   <span>{created_at}</span>
                 </div>
-                {status === "finalizado" && (
+                {updated_at && (
                   <div className="text-gray-700 text-base text-left">
-                    <strong>Finalizada em: </strong>
+                    <strong>
+                      {status !== "finalizado"
+                        ? "Última alteração em: "
+                        : "Finalizado em: "}
+                    </strong>
                     <span>{updated_at}</span>
                   </div>
                 )}

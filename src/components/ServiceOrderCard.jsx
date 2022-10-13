@@ -2,7 +2,7 @@ import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 function ServiceOrderCard({ serviceOrder, statusColor }) {
-  const { bike, client, service, status, created_at, updated_at } =
+  const { bike, client, service, responsible, status, created_at, updated_at } =
     serviceOrder;
 
   const {
@@ -48,6 +48,12 @@ function ServiceOrderCard({ serviceOrder, statusColor }) {
           <strong>Serviço: </strong>
           <span>{service}</span>
         </div>
+        {responsible && (
+          <div className="text-gray-700 text-base text-left">
+            <strong>Responsável: </strong>
+            <span>{responsible}</span>
+          </div>
+        )}
         {status !== "finalizado" ? (
           <div className="text-gray-700 text-base text-left">
             <strong>Entrada em: </strong>

@@ -20,3 +20,10 @@ export const formatMoney = (money) => {
   });
   return res;
 };
+
+export const getSumArrayByKey = (arr, key) => {
+  return arr.reduce(
+    (accumulator, current) => accumulator + Number(current[key]),
+    0
+  );
+};
