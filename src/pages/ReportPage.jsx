@@ -63,6 +63,20 @@ function ReportPage() {
             new Date(currentFilter.dateTo).getTime()
         );
       });
+    } else if (currentFilter.selectedStatus === "todos") {
+      filteredByData = serviceOrders.filter((serviceOrder) => {
+        return (
+          (new Date(serviceOrder.created_at).getTime() >=
+            new Date(currentFilter.dateFrom).getTime() &&
+            new Date(serviceOrder.created_at).getTime() <=
+              new Date(currentFilter.dateTo).getTime()) ||
+          (serviceOrder.status === "finalizado" &&
+            new Date(serviceOrder.updated_at).getTime() >=
+              new Date(currentFilter.dateFrom).getTime() &&
+            new Date(serviceOrder.updated_at).getTime() <=
+              new Date(currentFilter.dateTo).getTime())
+        );
+      });
     } else {
       filteredByData = serviceOrders.filter((serviceOrder) => {
         return (
