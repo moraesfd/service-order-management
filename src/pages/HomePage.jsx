@@ -9,6 +9,7 @@ import ModalForm from "../components/ModalForm";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import SearchBar from "../components/SearchBar";
 import ModalConfirm from "../components/ModalConfirm";
+import { convertUSToBRDate } from "../helpers/utils";
 
 function HomePage() {
   const {
@@ -48,7 +49,9 @@ function HomePage() {
           serviceOrder.bike.toLowerCase().includes(input) ||
           serviceOrder.client.toLowerCase().includes(input) ||
           serviceOrder.service.toLowerCase().includes(input) ||
-          serviceOrder.created_at.toLowerCase().includes(input)
+          convertUSToBRDate(serviceOrder.created_at)
+            .toLowerCase()
+            .includes(input)
         );
       }
     });

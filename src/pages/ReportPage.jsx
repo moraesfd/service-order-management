@@ -1,9 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import EmptyState from "../components/EmptyState";
 import Loading from "../components/Loading";
 import TitlePage from "../components/TitlePage";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
-import { getSumArrayByKey } from "../helpers/utils";
+import { getColorByStatus } from "../helpers/service-status";
+import {
+  convertUSToBRDate,
+  formatUSDate,
+  getSumArrayByKey,
+} from "../helpers/utils";
 import { getAllServiceOrders } from "../modules/serviceOrder";
 
 function ReportPage() {
@@ -12,12 +17,25 @@ function ReportPage() {
     setServiceOrders,
     loading,
     setLoading,
-    searchInputText,
     filteredServiceOrders,
     setFilteredServiceOrders,
     actionOnServiceOrder,
     setActionOnServiceOrder,
   } = useServiceOrders();
+
+  const currentDate = formatUSDate(new Date());
+  const [currentFilter, setCurrentFilter] = useState({
+    dateFrom: currentDate,
+    dateTo: currentDate,
+    selectedStatus: "todos",
+  });
+
+  const handleChangeFilter = (e) => {
+    setCurrentFilter({
+      ...currentFilter,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   async function getAllServiceOrdersFromApi() {
     let response = [];
@@ -28,8 +46,53 @@ function ReportPage() {
       response = null;
     } finally {
       setServiceOrders(response);
-      setFilteredServiceOrders(response);
+      filterServiceOrders();
     }
+  }
+
+  function filterServiceOrders() {
+    let filteredByData = [];
+    let filteredByStatus = [];
+
+    if (currentFilter.selectedStatus === "finalizado") {
+      filteredByData = serviceOrders.filter((serviceOrder) => {
+        return (
+          new Date(serviceOrder.updated_at).getTime() >=
+            new Date(currentFilter.dateFrom).getTime() &&
+          new Date(serviceOrder.updated_at).getTime() <=
+            new Date(currentFilter.dateTo).getTime()
+        );
+      });
+    } else {
+      filteredByData = serviceOrders.filter((serviceOrder) => {
+        return (
+          new Date(serviceOrder.created_at).getTime() >=
+            new Date(currentFilter.dateFrom).getTime() &&
+          new Date(serviceOrder.created_at).getTime() <=
+            new Date(currentFilter.dateTo).getTime()
+        );
+      });
+    }
+
+    if (filteredByData && filteredByData.length > 0) {
+      if (currentFilter.selectedStatus === "todos") {
+        filteredByStatus = filteredByData.filter((serviceOrder) => {
+          return (
+            serviceOrder.status.toLowerCase().includes("aberto") ||
+            serviceOrder.status.toLowerCase().includes("pendente") ||
+            serviceOrder.status.toLowerCase().includes("finalizado")
+          );
+        });
+      } else {
+        filteredByStatus = filteredByData.filter((serviceOrder) => {
+          return serviceOrder.status
+            .toLowerCase()
+            .includes(currentFilter.selectedStatus);
+        });
+      }
+    }
+
+    setFilteredServiceOrders(filteredByStatus);
   }
 
   useEffect(() => {
@@ -42,6 +105,15 @@ function ReportPage() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  function handleClickButtonFilter() {
+    setLoading(true);
+
+    setTimeout(() => {
+      filterServiceOrders();
+      setLoading(false);
+    }, 1000);
+  }
 
   return (
     <>
@@ -56,15 +128,19 @@ function ReportPage() {
               <input
                 className="appearance-none block w-30 text-gray-700 text-sm border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="date"
-                name="date-from"
-                id="date-from"
+                name="dateFrom"
+                id="dateFrom"
+                value={currentFilter.dateFrom}
+                onChange={(e) => handleChangeFilter(e)}
               />
               <span className="text-md px-5">até</span>
               <input
                 className="appearance-none block w-30 text-gray-700 text-sm border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="date"
-                name="date-to"
-                id="date-to"
+                name="dateTo"
+                id="dateTo"
+                value={currentFilter.dateTo}
+                onChange={(e) => handleChangeFilter(e)}
               />
             </div>
           </div>
@@ -79,7 +155,9 @@ function ReportPage() {
               <select
                 className="block appearance-none w-full border border-gray-200 text-gray-700 text-sm py-3 px-4 pr-8 rounded leading-tight focus:outline
               -none focus:bg-white focus:border-gray-500"
-                name="status"
+                name="selectedStatus"
+                value={currentFilter.selectedStatus}
+                onChange={(e) => handleChangeFilter(e)}
               >
                 <option value="todos">Todos</option>
                 <option value="aberto">Aberto</option>
@@ -101,8 +179,8 @@ function ReportPage() {
 
         <div className="block mb-6 md:mb-0 w-auto">
           <button
-            onClick={() => handleClickAddServiceOrder()}
-            class="block bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded whitespace-nowrap"
+            onClick={() => handleClickButtonFilter()}
+            className="block bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded whitespace-nowrap"
           >
             Filtrar
           </button>
@@ -111,53 +189,75 @@ function ReportPage() {
 
       {loading ? (
         <Loading />
-      ) : filteredServiceOrders ? (
-        <div class="overflow-x-auto relative">
-          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+      ) : filteredServiceOrders && filteredServiceOrders.length > 0 ? (
+        <div className="overflow-x-auto relative">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" className="py-3 px-6">
                   Bicicleta
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" className="py-3 px-6">
                   Cliente
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" className="py-3 px-6">
                   Serviço
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" className="py-3 px-6">
                   Responsável
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" className="py-3 px-6">
                   Status
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <th scope="col" className="py-3 px-6">
+                  Entrada
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Finalizado
+                </th>
+                <th scope="col" className="py-3 px-6">
                   Preço
                 </th>
               </tr>
             </thead>
             <tbody>
-              {filteredServiceOrders.map((serviceOrder, index) => (
-                <tr class="bg-white dark:bg-gray-800">
-                  <td class="py-4 px-6">{serviceOrder.bike}</td>
-                  <td class="py-4 px-6">{serviceOrder.client}</td>
-                  <td class="py-4 px-6">{serviceOrder.service}</td>
-                  <td class="py-4 px-6">{serviceOrder.responsible}</td>
-                  <td class="py-4 px-6">{serviceOrder.status}</td>
-                  <td class="py-4 px-6">R$ {serviceOrder.price}</td>
+              {filteredServiceOrders.map((serviceOrder) => (
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td className="py-4 px-6">{serviceOrder.bike}</td>
+                  <td className="py-4 px-6">{serviceOrder.client}</td>
+                  <td className="py-4 px-6">{serviceOrder.service}</td>
+                  <td className="py-4 px-6">{serviceOrder.responsible}</td>
+                  <td
+                    className={`py-4 px-6 ${getColorByStatus(
+                      serviceOrder.status
+                    )}`}
+                  >
+                    {serviceOrder.status}
+                  </td>
+                  <td className="py-4 px-6">
+                    {convertUSToBRDate(serviceOrder.created_at)}
+                  </td>
+                  <td className="py-4 px-6">
+                    {serviceOrder.status === "finalizado"
+                      ? convertUSToBRDate(serviceOrder.updated_at)
+                      : "-"}
+                  </td>
+                  <td className="py-4 px-6">R$ {serviceOrder.price}</td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
-              <tr class="font-semibold text-gray-900 dark:text-white">
-                <th scope="row" class="py-3 px-6 text-base">
+              <tr className="font-semibold text-gray-900 dark:text-white">
+                <th scope="row" className="py-3 px-6 text-base">
                   Total: {filteredServiceOrders.length}
                 </th>
-                <td class="py-3 px-6"></td>
-                <td class="py-3 px-6"></td>
-                <td class="py-3 px-6"></td>
-                <td class="py-3 px-6"></td>
-                <td class="py-3 px-6 text-base">
+                <td className="py-3 px-6"></td>
+                <td className="py-3 px-6"></td>
+                <td className="py-3 px-6"></td>
+                <td className="py-3 px-6"></td>
+                <td className="py-3 px-6"></td>
+                <td className="py-3 px-6"></td>
+                <td className="py-3 px-6 text-base">
                   R$ {getSumArrayByKey(filteredServiceOrders, "price")}
                 </td>
               </tr>
@@ -165,7 +265,7 @@ function ReportPage() {
           </table>
         </div>
       ) : (
-        <EmptyState msg="Ops, selecione algum filtro para começar!" />
+        <EmptyState msg="Ops, não possui resultados para este filtro. Tente outro!" />
       )}
     </>
   );

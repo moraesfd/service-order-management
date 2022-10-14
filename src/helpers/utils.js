@@ -5,12 +5,20 @@ export const generateHashId = () => {
   return myuuid;
 };
 
-export const formatDate = (date) => {
-  return [
-    padTo2Digits(date.getDate()),
-    padTo2Digits(date.getMonth() + 1),
-    date.getFullYear(),
-  ].join("/");
+export const padTo2Digits = (num) => {
+  return num.toString().padStart(2, "0");
+};
+
+export const convertUSToBRDate = (date) => {
+  const [year, month, day] = date.split("-");
+  const result = [padTo2Digits(day), padTo2Digits(month), year].join("/");
+  return result;
+};
+
+export const formatUSDate = (date) => {
+  const offset = date.getTimezoneOffset();
+  date = new Date(date.getTime() - offset * 60 * 1000);
+  return date.toISOString().split("T")[0];
 };
 
 export const formatMoney = (money) => {

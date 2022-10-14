@@ -1,5 +1,6 @@
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { convertUSToBRDate } from "../helpers/utils";
 
 function ServiceOrderCard({ serviceOrder, statusColor }) {
   const { bike, client, service, responsible, status, created_at, updated_at } =
@@ -57,12 +58,12 @@ function ServiceOrderCard({ serviceOrder, statusColor }) {
         {status !== "finalizado" ? (
           <div className="text-gray-700 text-base text-left">
             <strong>Entrada em: </strong>
-            <span>{created_at}</span>
+            <span>{convertUSToBRDate(created_at)}</span>
           </div>
         ) : (
           <div className="text-gray-700 text-base text-left">
             <strong>Finalizada em: </strong>
-            <span>{updated_at}</span>
+            <span>{convertUSToBRDate(updated_at)}</span>
           </div>
         )}
       </div>
@@ -70,21 +71,21 @@ function ServiceOrderCard({ serviceOrder, statusColor }) {
         <div className="text-right">
           <button
             type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             onClick={(e) => handleClickServiceOrderEdit()}
           >
             <FiEdit />
-            <span class="sr-only">Editar Item</span>
+            <span className="sr-only">Editar Item</span>
           </button>
         </div>
         <div className="text-right">
           <button
             type="button"
-            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+            className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
             onClick={(e) => handleClickServiceOrderDelete()}
           >
             <FiTrash2 />
-            <span class="sr-only">Excluir Item</span>
+            <span className="sr-only">Excluir Item</span>
           </button>
         </div>
       </div>

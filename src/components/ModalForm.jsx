@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
-import { generateHashId } from "../helpers/utils";
+import { formatUSDate, generateHashId } from "../helpers/utils";
 import {
   createServiceOrder,
   updateServiceOrder,
@@ -24,9 +24,8 @@ function ModalForm() {
     responsible: serviceOrderModal?.responsible ?? "",
     price: serviceOrderModal?.price ?? "",
     status: serviceOrderModal?.status ?? "aberto",
-    created_at:
-      serviceOrderModal?.created_at ?? new Date().toLocaleDateString("pt-BR"),
-    updated_at: new Date().toLocaleDateString("pt-BR"),
+    created_at: serviceOrderModal?.created_at ?? formatUSDate(new Date()),
+    updated_at: formatUSDate(new Date()),
   });
 
   const handleValue = (e) => {

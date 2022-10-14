@@ -7,7 +7,7 @@ function MainLayout({ children }) {
     <>
       <Header title="Gerenciamento de Ordens de Serviço" />
       <Navigation />
-      <main className="px-4 sm:px-8 lg:px-16 xl:px-20 mx-auto text-center">
+      <main className="px-4 sm:px-8 lg:px-16 xl:px-20 mx-auto text-center min-h-screen">
         {children}
       </main>
       <Footer text="Todos os direitos reservados por Felipe de Moraes. 2022." />

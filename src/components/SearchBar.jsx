@@ -18,7 +18,7 @@ function SearchBar() {
       <div className="">
         <button
           onClick={() => handleClickAddServiceOrder()}
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
         >
           + Adicionar
         </button>

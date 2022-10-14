@@ -1,6 +1,6 @@
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import { getColorByStatus } from "../helpers/service-status";
-import { formatMoney } from "../helpers/utils";
+import { convertUSToBRDate, formatMoney } from "../helpers/utils";
 
 function ModalPreview() {
   const { setShowModalPreview, serviceOrderModal } = useServiceOrders();
@@ -81,7 +81,7 @@ function ModalPreview() {
                 </div>
                 <div className="text-gray-700 text-base text-left">
                   <strong>Entrada em: </strong>
-                  <span>{created_at}</span>
+                  <span>{convertUSToBRDate(created_at)}</span>
                 </div>
                 {updated_at && (
                   <div className="text-gray-700 text-base text-left">
@@ -90,7 +90,7 @@ function ModalPreview() {
                         ? "Última alteração em: "
                         : "Finalizado em: "}
                     </strong>
-                    <span>{updated_at}</span>
+                    <span>{convertUSToBRDate(updated_at)}</span>
                   </div>
                 )}
               </p>
