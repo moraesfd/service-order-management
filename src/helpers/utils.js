@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export const generateHashId = () => {
   const myuuid = uuidv4();
@@ -34,4 +36,24 @@ export const getSumArrayByKey = (arr, key) => {
     (accumulator, current) => accumulator + Number(current[key]),
     0
   );
+};
+
+export const exportPdf = (title, headers, data, filename) => {
+  const unit = "pt";
+  const size = "A4";
+  const orientation = "portrait";
+  const marginLeft = 40;
+  const doc = new jsPDF(orientation, unit, size);
+
+  doc.setFontSize(15);
+
+  let content = {
+    startY: 50,
+    head: headers,
+    body: data,
+  };
+
+  doc.text(title, marginLeft, 40);
+  doc.autoTable(content);
+  doc.save(filename);
 };

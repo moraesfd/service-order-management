@@ -50,7 +50,7 @@ function ModalPreview() {
             <div className="relative p-6 flex-auto">
               <p className="my-4 text-slate-500 text-lg leading-relaxed">
                 <div className="text-gray-700 text-base text-left">
-                  <strong>Bike: </strong>
+                  <strong>Bicicleta: </strong>
                   <span>{bike}</span>
                 </div>
                 <div className="text-gray-700 text-base text-left">

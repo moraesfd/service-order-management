@@ -6,10 +6,12 @@ import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import { getColorByStatus } from "../helpers/service-status";
 import {
   convertUSToBRDate,
+  exportPdf,
   formatUSDate,
   getSumArrayByKey,
 } from "../helpers/utils";
 import { getAllServiceOrders } from "../modules/serviceOrder";
+import { AiOutlineFilter, AiOutlineDownload } from "react-icons/ai";
 
 function ReportPage() {
   const {
@@ -19,8 +21,6 @@ function ReportPage() {
     setLoading,
     filteredServiceOrders,
     setFilteredServiceOrders,
-    actionOnServiceOrder,
-    setActionOnServiceOrder,
   } = useServiceOrders();
 
   const currentDate = formatUSDate(new Date());
@@ -129,12 +129,64 @@ function ReportPage() {
     }, 1000);
   }
 
+  function handleClickButtonDownload() {
+    const filename = `lista_status_${currentFilter.selectedStatus}_de_${currentFilter.dateFrom}_ate_${currentFilter.dateTo}.pdf`;
+
+    const title = `Relatório OS de status "${
+      currentFilter.selectedStatus
+    }" de ${convertUSToBRDate(currentFilter.dateFrom)} ate ${convertUSToBRDate(
+      currentFilter.dateTo
+    )}`;
+
+    const headers = [
+      [
+        "Bicicleta",
+        "Cliente",
+        "Serviço",
+        "Responsável",
+        "Status",
+        "Entrada",
+        "Finalizado",
+        "Preço",
+      ],
+    ];
+
+    let data = filteredServiceOrders.map((serviceOrder) => [
+      serviceOrder.bike,
+      serviceOrder.client,
+      serviceOrder.service,
+      serviceOrder.responsible,
+      serviceOrder.status,
+      convertUSToBRDate(serviceOrder.created_at),
+      serviceOrder.status === "finalizado"
+        ? convertUSToBRDate(serviceOrder.updated_at)
+        : "-",
+      serviceOrder.price,
+    ]);
+
+    data = [
+      ...data,
+      [
+        `Total: ${filteredServiceOrders.length}`,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        `${getSumArrayByKey(filteredServiceOrders, "price")}`,
+      ],
+    ];
+
+    exportPdf(title, headers, data, filename);
+  }
+
   return (
     <>
       <TitlePage text="Relatórios" />
       <div className="py-6 block w-full sm:flex sm:justify-between sm:items-center border-b border-gray-200">
         <div className="block w-full sm:flex sm:justify-start sm:items-center">
-          <div className="mb-6 md:mb-0 pr-6">
+          <div className="mb-6 md:mb-0 md:pr-6">
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 text-left">
               Filtrar por data:
             </label>
@@ -191,12 +243,21 @@ function ReportPage() {
           </div>
         </div>
 
-        <div className="block mb-6 md:mb-0 w-auto">
+        <div className="flex justify-around mb-6 md:mb-0 md:mx-2 w-auto">
           <button
             onClick={() => handleClickButtonFilter()}
-            className="block bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded whitespace-nowrap"
+            className="flex justify-center items-center gap-2 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded whitespace-nowrap md:mx-2"
           >
-            Filtrar
+            <AiOutlineFilter />
+            <span>Filtrar</span>
+          </button>
+
+          <button
+            onClick={() => handleClickButtonDownload()}
+            className="flex justify-center items-center gap-2 bg-green-500 hover:bg-green-700 text-white font-bold px-4 py-2 rounded whitespace-nowrap"
+          >
+            <AiOutlineDownload />
+            <span>Baixar</span>
           </button>
         </div>
       </div>

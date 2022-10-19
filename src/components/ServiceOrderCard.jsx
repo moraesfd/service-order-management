@@ -38,7 +38,7 @@ function ServiceOrderCard({ serviceOrder, statusColor }) {
           {status}
         </div>
         <div className="text-gray-700 text-base text-left">
-          <strong>Bike: </strong>
+          <strong>Bicicleta: </strong>
           <span>{bike}</span>
         </div>
         <div className="text-gray-700 text-base text-left">
