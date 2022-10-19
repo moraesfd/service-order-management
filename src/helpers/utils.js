@@ -41,7 +41,7 @@ export const getSumArrayByKey = (arr, key) => {
 export const exportPdf = (title, headers, data, filename) => {
   const unit = "pt";
   const size = "A4";
-  const orientation = "portrait";
+  const orientation = "landscape";
   const marginLeft = 40;
   const doc = new jsPDF(orientation, unit, size);
 
