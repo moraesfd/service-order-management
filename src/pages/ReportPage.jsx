@@ -1,44 +1,13 @@
-import { useEffect, useState } from "react";
 import EmptyState from "../components/EmptyState";
 import FilterBar from "../components/FilterBar";
 import Loading from "../components/Loading";
 import TitlePage from "../components/TitlePage";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import { getColorByStatus } from "../helpers/service-status";
-import {
-  convertUSToBRDate,
-  exportPdf,
-  formatUSDate,
-  getSumArrayByKey,
-} from "../helpers/utils";
-import { getAllServiceOrders } from "../modules/serviceOrder";
+import { convertUSToBRDate, getSumArrayByKey } from "../helpers/utils";
 
 function ReportPage() {
-  const { setServiceOrders, loading, setLoading, filteredServiceOrders } =
-    useServiceOrders();
-
-  async function getAllServiceOrdersFromApi() {
-    let response = [];
-    try {
-      response = await getAllServiceOrders();
-    } catch (error) {
-      console.log(error);
-      response = null;
-    } finally {
-      setServiceOrders(response);
-    }
-  }
-
-  useEffect(() => {
-    setLoading(true);
-
-    const timer = setTimeout(() => {
-      getAllServiceOrdersFromApi();
-      setLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
+  const { loading, filteredServiceOrders } = useServiceOrders();
 
   return (
     <>

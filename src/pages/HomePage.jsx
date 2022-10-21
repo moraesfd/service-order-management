@@ -3,7 +3,7 @@ import EmptyState from "../components/EmptyState";
 import ServiceOrdersContainer from "../components/ServiceOrdersContainer";
 import TitlePage from "../components/TitlePage";
 import Loading from "../components/Loading";
-import { getAllServiceOrders } from "../modules/serviceOrder";
+import { getAllActiveServiceOrders } from "../modules/serviceOrder";
 import ModalPreview from "../components/ModalPreview";
 import ModalForm from "../components/ModalForm";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
@@ -30,7 +30,7 @@ function HomePage() {
   async function getAllServiceOrdersFromApi() {
     let response = [];
     try {
-      response = await getAllServiceOrders();
+      response = await getAllActiveServiceOrders();
     } catch (error) {
       console.log(error);
       response = null;

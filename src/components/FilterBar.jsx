@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineFilter, AiOutlineDownload } from "react-icons/ai";
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
 import {
@@ -7,10 +7,12 @@ import {
   formatUSDate,
   getSumArrayByKey,
 } from "../helpers/utils";
+import { getAllActiveServiceOrders } from "../modules/serviceOrder";
 
 function FilterBar() {
   const {
     serviceOrders,
+    setServiceOrders,
     setLoading,
     filteredServiceOrders,
     setFilteredServiceOrders,
@@ -22,6 +24,18 @@ function FilterBar() {
     dateTo: currentDate,
     selectedStatus: "todos",
   });
+
+  async function getAllServiceOrdersFromApi() {
+    let response = [];
+    try {
+      response = await getAllActiveServiceOrders();
+    } catch (error) {
+      console.log(error);
+      response = null;
+    } finally {
+      setServiceOrders(response);
+    }
+  }
 
   function filterServiceOrders() {
     let filteredByData = [];
@@ -152,6 +166,18 @@ function FilterBar() {
 
     exportPdf(title, headers, data, filename);
   }
+
+  useEffect(() => {
+    setLoading(true);
+
+    const timer = setTimeout(() => {
+      getAllServiceOrdersFromApi();
+      filterServiceOrders();
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="py-6 block w-full sm:flex sm:justify-between sm:items-center border-b border-gray-200">

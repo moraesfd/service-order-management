@@ -1,4 +1,5 @@
 import { useServiceOrders } from "../contexts/serviceOrdersContext";
+import { formatUSDate } from "../helpers/utils";
 import { deleteServiceOrder } from "../modules/serviceOrder";
 
 function ModalConfirm() {
@@ -17,8 +18,17 @@ function ModalConfirm() {
   async function handleClickConfirmButton() {
     let response = [];
 
+    const logicalDeleteCurrentServiceOrder = {
+      ...serviceOrderModal,
+      updated_at: formatUSDate(new Date()),
+      active: 0,
+    };
+
     try {
-      response = await deleteServiceOrder(serviceOrderModal.id);
+      response = await deleteServiceOrder(
+        serviceOrderModal.id,
+        logicalDeleteCurrentServiceOrder
+      );
     } catch (error) {
       console.log(error);
       response = null;
