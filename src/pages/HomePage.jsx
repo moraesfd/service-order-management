@@ -49,6 +49,7 @@ function HomePage() {
           serviceOrder.bike.toLowerCase().includes(input) ||
           serviceOrder.client.toLowerCase().includes(input) ||
           serviceOrder.service.toLowerCase().includes(input) ||
+          serviceOrder.responsible.toLowerCase().includes(input) ||
           convertUSToBRDate(serviceOrder.created_at)
             .toLowerCase()
             .includes(input)

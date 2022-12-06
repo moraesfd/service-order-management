@@ -26,6 +26,7 @@ function ModalForm() {
     status: serviceOrderModal?.status ?? "aberto",
     created_at: serviceOrderModal?.created_at ?? formatUSDate(new Date()),
     updated_at: formatUSDate(new Date()),
+    active: 1,
   });
 
   const handleValue = (e) => {
@@ -219,7 +220,7 @@ function ModalForm() {
                       </label>
                       <input
                         className="appearance-none block w-full text-gray-700 text-sm border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        name="price"
+                        name="responsible"
                         value={currentServiceOrder.responsible}
                         onChange={(e) => handleValue(e)}
                         placeholder="Responsável"

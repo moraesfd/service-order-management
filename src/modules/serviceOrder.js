@@ -17,12 +17,6 @@ export const getAllActiveServiceOrders = async () => {
   return activeServiceOrders;
 };
 
-export const getServiceOrderById = async (serviceOrderId) => {
-  const response = await api.get(`/service_order/${serviceOrderId}`);
-  const { data } = response;
-  return data;
-};
-
 export const createServiceOrder = async (newServiceOrder) => {
   const response = await api.post("/service_order", newServiceOrder);
   const { data } = response;
